@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 
 import data from "./data.json"
 import { transformToMonthlyIncomeExpense } from "@/lib/chart-utils";
-import { generateDummyChartData } from "@/lib/dummy-data";
+import { generateDummyChartData, generateDummyTransactions } from "@/lib/dummy-data";
 import { Button } from "@/components/ui/button";
 
 export default function Page() {
@@ -61,6 +61,9 @@ export default function Page() {
   };
 
   const safeTransactions = Array.isArray(transactions) ? transactions : [];
+  
+  // Use dummy transactions for SectionCards if no real data exists
+  const displayTransactions = safeTransactions.length > 0 ? safeTransactions : generateDummyTransactions();
 
   return (
     <SidebarProvider
@@ -99,13 +102,9 @@ export default function Page() {
                   </div>
                 </div>
               )}
-              <SectionCards transactions={safeTransactions} />
+              <SectionCards transactions={displayTransactions} />
               <div className="px-4 lg:px-6">
-                <IncomeExpenseBarChart data={
-                  safeTransactions.length > 0 
-                    ? transformToMonthlyIncomeExpense(safeTransactions, 8)
-                    : generateDummyChartData()
-                } />
+                <IncomeExpenseBarChart data={generateDummyChartData()} />
               </div>
               {/* Recent Transactions Cards */}
               <div className="px-4 lg:px-6 mt-6">
