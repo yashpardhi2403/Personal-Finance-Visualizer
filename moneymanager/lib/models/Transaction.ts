@@ -57,5 +57,5 @@ TransactionSchema.index({ date: -1 });
 TransactionSchema.index({ category: 1 });
 TransactionSchema.index({ type: 1 });
 
-export default mongoose.models.Transaction ||
-  mongoose.model<ITransaction>('Transaction', TransactionSchema);
+export default mongoose.models.Transaction || mongoose.model<ITransaction>('Transaction', TransactionSchema);
+
