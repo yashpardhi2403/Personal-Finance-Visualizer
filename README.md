@@ -20,13 +20,13 @@ A sleek and simple web application to **track transactions**, **analyze spending
 <div align="center">
 
 ### 📊 Dashboard View  
-![Dashboard View](assets/dashboard.png)
+![Dashboard View](dashboard.png)
 
 ### 📋 Transactions Page  
-![Transactions View](assets/transactions.png)
+![Transactions View](transactions.png)
 
 ### 💸 Budgets Overview  
-![Budgets View](assets/budgets.png)
+![Budgets View](budgets.png)
 
 </div>
 
@@ -75,13 +75,28 @@ A sleek and simple web application to **track transactions**, **analyze spending
 ## 📁 Folder Structure (Brief)
 
 ```
-src/
-│
-├── components/         # Reusable UI components
-├── pages/              # Main views: Dashboard, Transactions, Budgets
-├── context/            # Global state & providers
-├── utils/              # Helper functions
-└── assets/             # Icons and images
+Personal-Finance-Visualizer/
+├── moneymanager/                    # Main Next.js application
+│   ├── app/                        # Next.js app directory
+│   │   ├── api/                    # API routes
+│   │   │   ├── budgets/           # Budget API endpoints
+│   │   │   ├── dashboard/         # Dashboard API endpoints
+│   │   │   └── transactions/      # Transaction API endpoints
+│   │   ├── budgets/               # Budget pages
+│   │   ├── charts-demo/           # Chart demonstration pages
+│   │   ├── dashboard/             # Dashboard pages
+│   │   └── transactions/          # Transaction pages
+│   ├── components/                 # React components
+│   │   ├── charts/                # Chart components
+│   │   └── ui/                    # Reusable UI components
+│   ├── hooks/                     # Custom React hooks
+│   ├── lib/                       # Utility libraries
+│   │   └── models/                # Data models
+│   ├── public/                    # Static assets
+│   ├── package.json               # Dependencies and scripts
+│   ├── tsconfig.json              # TypeScript configuration
+│   └── README.md                  # Project documentation
+└── README.md 
 ```
 
 ---
