@@ -6,6 +6,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 interface Transaction {
   _id: string;
@@ -35,12 +36,46 @@ export default function TransactionsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All Transactions");
+  const [loading, setLoading] = useState(true);
+  const [autoLoaded, setAutoLoaded] = useState(false);
 
   useEffect(() => {
-    fetch("/api/transactions")
-      .then((res) => res.json())
-      .then((data) => setTransactions(data));
-  }, []);
+    const loadTransactions = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("/api/transactions");
+        const data = await response.json();
+        
+        // If no transactions exist and we haven't auto-loaded yet, load sample data
+        if (data.length === 0 && !autoLoaded) {
+          console.log("No transactions found, auto-loading sample data...");
+          await handlePopulateDummyData();
+          setAutoLoaded(true);
+        } else {
+          setTransactions(data);
+        }
+      } catch (error) {
+        console.error("Error loading transactions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTransactions();
+  }, [autoLoaded]);
+
+  const handlePopulateDummyData = async () => {
+    try {
+      const response = await fetch("/api/test-db", { method: "POST" });
+      if (response.ok) {
+        const transactionsResponse = await fetch("/api/transactions");
+        const transactionsData = await transactionsResponse.json();
+        setTransactions(transactionsData);
+      }
+    } catch (error) {
+      console.error("Error populating dummy data:", error);
+    }
+  };
 
   const filtered = transactions.filter((t) => {
     const matchesSearch =
@@ -82,12 +117,20 @@ export default function TransactionsPage() {
               </SelectContent>
             </Select>
             <div className="ml-auto">
-              {/* Placeholder for banner or info */}
               <span className="rounded bg-amber-100 px-4 py-2 text-amber-800 text-sm font-medium shadow-sm">You Can filter Transaction data</span>
             </div>
           </div>
+          {/* Loading State */}
+          {loading && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mr-3"></div>
+                <span className="text-blue-800 font-medium">Loading sample data...</span>
+              </div>
+            </div>
+          )}
           <div className="flex flex-col gap-2">
-            {filtered.length === 0 && (
+            {!loading && filtered.length === 0 && (
               <div className="text-center text-muted-foreground py-8">No transactions found.</div>
             )}
             {filtered.map((t) => (

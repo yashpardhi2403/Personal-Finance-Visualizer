@@ -141,7 +141,7 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ onAddTransaction, ...props }: React.ComponentProps<typeof Sidebar> & { onAddTransaction?: () => void }) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -160,7 +160,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} onAddTransaction={onAddTransaction} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

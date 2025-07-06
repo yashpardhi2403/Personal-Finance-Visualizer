@@ -13,12 +13,14 @@ import {
 
 export function NavMain({
   items,
+  onAddTransaction,
 }: {
   items: {
     title: string
     url: string
     icon?: Icon
   }[]
+  onAddTransaction?: () => void
 }) {
   return (
     <SidebarGroup>
@@ -28,6 +30,7 @@ export function NavMain({
             <SidebarMenuButton
               tooltip="Add Transaction"
               className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+              onClick={onAddTransaction}
             >
               <IconCirclePlusFilled />
               <span>Add Transaction</span>
